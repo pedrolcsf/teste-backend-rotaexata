@@ -17,7 +17,12 @@ Aplicação backend desenvolvida com Node.js, Express e PostgreSQL. Implementa a
     cd teste-backend-rotaexata
     ```
 
-2. Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
+2. Instale as dependências:
+    ```bash
+    npm i
+    ```
+
+3. Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
     ```env
     DB_HOST=db
     DB_NAME=your_db_name
@@ -28,17 +33,17 @@ Aplicação backend desenvolvida com Node.js, Express e PostgreSQL. Implementa a
     SHARED_SECRET_KEY=your_shared_secret_key
     ```
 
-3. Execute o banco de dados com Docker:
+4. Execute o banco de dados com Docker:
     ```bash
     docker-compose up
     ```
 
-4. Execute as migrations:
+5. Execute as migrations:
     ```bash
     npx sequelize db:migrate
     ```
 
-5. Execute a aplicação
+6. Execute a aplicação
     ```bash
     npm run start:dev
     ```
