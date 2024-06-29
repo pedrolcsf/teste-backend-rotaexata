@@ -9,6 +9,6 @@ const routes = express.Router();
 routes.post('/user', UserController.store)
 routes.post('/login', AuthController.store)
 
-routes.get('/address', protected, AddressController.index)
+routes.get('/addresses', protected, AddressController.index)
 
 module.exports = routes;
