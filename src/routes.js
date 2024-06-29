@@ -10,7 +10,8 @@ routes.post('/user', UserController.store)
 routes.post('/login', AuthController.store)
 
 routes.post('/addresses', protected, AddressController.store)
-routes.put('/addresses/:id', protected, AddressController.store)
+routes.put('/addresses/:id', protected, AddressController.update)
+routes.delete('/addresses/:id', protected, AddressController.delete)
 routes.get('/addresses', protected, AddressController.index)
 
 module.exports = routes;
