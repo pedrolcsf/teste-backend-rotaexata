@@ -1,7 +1,10 @@
 const { Op } = require('sequelize');
+const jwt = require('jsonwebtoken');
+
 const Address = require('../models/Address');
 const User = require('../models/User');
-const jwt = require('jsonwebtoken');
+const Log = require('../models/Log');
+
 require('dotenv').config();
 
 const SHARED_SECRET_KEY = process.env.SHARED_SECRET_KEY;
@@ -61,6 +64,8 @@ module.exports = {
         number
       } = req.body;
 
+      const originalAddress = findAddress.toJSON();
+
       findAddress.zipcode = zipcode;
       findAddress.street = street;
       findAddress.district = district;
@@ -70,6 +75,15 @@ module.exports = {
       findAddress.number = number;
 
       await findAddress.save();
+
+      await Log.create({
+        user_id: userId,
+        action: 'UPDATE',
+        details: {
+          before: originalAddress,
+          after: findAddress.toJSON()
+        }
+      });
 
       return res.json(findAddress);
     },
@@ -88,6 +102,11 @@ module.exports = {
       }
 
       await findAddress.destroy();
+      await Log.create({
+        user_id: userId,
+        action: 'DELETE',
+        details: findAddress.toJSON()
+      });
 
       return res.json();
     },
@@ -139,7 +158,7 @@ module.exports = {
 
       return res.json({ url: sharedUrl });
   },
-  
+
   async getSharedAddress(req, res) {
     const { token } = req.params;
     try {
