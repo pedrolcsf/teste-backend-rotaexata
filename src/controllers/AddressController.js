@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const Address = require('../models/Address');
 const User = require('../models/User');
 
@@ -94,11 +95,23 @@ module.exports = {
         return res.status(400).json({ error: 'User not found' });
       }
 
-      const findAddress = await Address.findAll({
-        where: {
-          user_id: userId
+      const { keyword } = req.query;
+      let whereClause = { user_id: userId };
+
+      if (keyword) {
+        whereClause = {
+          user_id: userId,
+          [Op.or]: [
+            { zipcode: { [Op.like]: `%${keyword}%` } },
+            { street: { [Op.like]: `%${keyword}%` } },
+            { district: { [Op.like]: `%${keyword}%` } },
+            { city: { [Op.like]: `%${keyword}%` } },
+            { state: { [Op.like]: `%${keyword}%` } },
+            { complement: { [Op.like]: `%${keyword}%` } },
+          ]
         }
-      });
+      }
+      const findAddress = await Address.findAll({ where: whereClause });
 
       return res.json(findAddress);
     }
