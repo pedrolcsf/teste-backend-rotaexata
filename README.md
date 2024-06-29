@@ -27,12 +27,17 @@ Aplicação backend desenvolvida com Node.js, Express e PostgreSQL. Implementa a
     JWT_EXPIRES_IN=1d
     ```
 
-3. Execute a aplicação com Docker:
+3. Execute o banco de dados com Docker:
     ```bash
     docker-compose up
     ```
 
-3. Execute
+4. Execute as migrations:
+    ```bash
+    npx sequelize db:migrate
+    ```
+
+5. Execute a aplicação
     ```bash
     npm run start:dev
     ```
