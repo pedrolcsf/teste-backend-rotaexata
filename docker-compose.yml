@@ -1,0 +1,20 @@
+version: '3'
+services:
+  database:
+    image: postgres:latest
+    container_name: rotaexata
+    environment:
+      POSTGRES_USER: rotaexata
+      POSTGRES_PASSWORD: rotaexata
+      POSTGRES_DB: rotaexata
+    ports:
+      - "5432:5432"
+    networks:
+      - rotaexata
+    volumes:
+      - ./data:/var/lib/postgresql/data
+volumes:
+  data:
+networks:
+  rotaexata:
+    driver: bridge
