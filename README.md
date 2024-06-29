@@ -32,6 +32,12 @@ Aplicação backend desenvolvida com Node.js, Express e PostgreSQL. Implementa a
     docker-compose up
     ```
 
+3. Execute
+    ```bash
+    npm run start:dev
+    ```
+
+
 ### Endpoints
 
 #### Autenticação
