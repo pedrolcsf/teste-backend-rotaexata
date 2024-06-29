@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
+const generateToken = require('../utils/generateToken');
 
 module.exports = {
   async store(req, res) {
@@ -15,8 +16,18 @@ module.exports = {
       return res.status(400).json({ error: 'Password does not match' });
     }
 
+    const token = generateToken({ id: userEmailAlreadyExists.id, email: userEmailAlreadyExists.email });
+    if (!token) {
+      return res.status(500).json({ error: 'Error generating token' });
+    }
+
     res.json({
-      message: 'User logged in successfully'
+      user: {
+        id: userEmailAlreadyExists.id,
+        name: userEmailAlreadyExists.name,
+        email: userEmailAlreadyExists.email,
+      },
+      token
     })
   }
 }
