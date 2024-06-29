@@ -14,4 +14,8 @@ routes.put('/addresses/:id', protected, AddressController.update)
 routes.delete('/addresses/:id', protected, AddressController.delete)
 routes.get('/addresses', protected, AddressController.index)
 
+// shared
+routes.post('/addresses/:id/share', protected, AddressController.share)
+routes.get('/shared/:token', AddressController.getSharedAddress)
+
 module.exports = routes;

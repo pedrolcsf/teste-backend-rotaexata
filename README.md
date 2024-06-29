@@ -25,6 +25,7 @@ Aplicação backend desenvolvida com Node.js, Express e PostgreSQL. Implementa a
     DB_PASSWORD=your_db_password
     JWT_SECRET=your_jwt_secret
     JWT_EXPIRES_IN=1d
+    SHARED_SECRET_KEY=your_shared_secret_key
     ```
 
 3. Execute o banco de dados com Docker:

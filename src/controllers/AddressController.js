@@ -1,6 +1,10 @@
 const { Op } = require('sequelize');
 const Address = require('../models/Address');
 const User = require('../models/User');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+
+const SHARED_SECRET_KEY = process.env.SHARED_SECRET_KEY;
 
 module.exports = {
     async store(req, res) {
@@ -114,5 +118,42 @@ module.exports = {
       const findAddress = await Address.findAll({ where: whereClause });
 
       return res.json(findAddress);
+    },
+    async share(req, res) {
+      const address_id = req.params.id;
+      const { expiresIn } = req.body; // tempo de expiração em segundos
+      const userId = req.userId;
+      
+      const findUser = await User.findByPk(userId);
+      if (!findUser) {
+          return res.status(400).json({ error: 'User not found' });
+      }
+
+      const findAddress = await Address.findByPk(address_id);
+      if (!findAddress) {
+          return res.status(400).json({ error: 'Address not found' });
+      }
+
+      const token = jwt.sign({ address_id }, SHARED_SECRET_KEY, { expiresIn });
+      const sharedUrl = `${req.protocol}://${req.get('host')}/shared/${token}`;
+
+      return res.json({ url: sharedUrl });
+  },
+  
+  async getSharedAddress(req, res) {
+    const { token } = req.params;
+    try {
+        const decoded = jwt.verify(token, SHARED_SECRET_KEY);
+        const { address_id } = decoded;
+
+        const findAddress = await Address.findByPk(address_id);
+        if (!findAddress) {
+            return res.status(400).json({ error: 'Address not found' });
+        }
+
+        return res.json(findAddress);
+    } catch (err) {
+        return res.status(400).json({ error: 'Invalid or expired token' });
     }
+}
 }
