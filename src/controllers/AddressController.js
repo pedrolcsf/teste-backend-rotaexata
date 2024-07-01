@@ -137,9 +137,11 @@ module.exports = {
       }
 
       const token = jwt.sign({ address_id }, SHARED_SECRET_KEY, { expiresIn });
-      const sharedUrl = `${req.protocol}://${req.get('host')}/shared/${token}`;
+      const httpProtocol = req.protocol;
+      const host = req.get('host');
+      const sharedUrl = `${httpProtocol}://${host}/shared/${token}`;
 
-      return res.json({ url: sharedUrl });
+      return res.json({ url: sharedUrl, token });
   },
 
   async getSharedAddress(req, res) {
