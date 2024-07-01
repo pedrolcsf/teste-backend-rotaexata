@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 
 const Address = require('../models/Address');
 const User = require('../models/User');
-const Log = require('../models/Log');
 
 require('dotenv').config();
 
@@ -64,8 +63,6 @@ module.exports = {
         number
       } = req.body;
 
-      const originalAddress = findAddress.toJSON();
-
       findAddress.zipcode = zipcode;
       findAddress.street = street;
       findAddress.district = district;
@@ -75,15 +72,6 @@ module.exports = {
       findAddress.number = number;
 
       await findAddress.save();
-
-      await Log.create({
-        user_id: userId,
-        action: 'UPDATE',
-        details: {
-          before: originalAddress,
-          after: findAddress.toJSON()
-        }
-      });
 
       return res.json(findAddress);
     },
@@ -102,11 +90,6 @@ module.exports = {
       }
 
       await findAddress.destroy();
-      await Log.create({
-        user_id: userId,
-        action: 'DELETE',
-        details: findAddress.toJSON()
-      });
 
       return res.json();
     },
@@ -140,7 +123,7 @@ module.exports = {
     },
     async share(req, res) {
       const address_id = req.params.id;
-      const { expiresIn } = req.body; // tempo de expiração em segundos
+      const { expiresIn } = req.body;
       const userId = req.userId;
       
       const findUser = await User.findByPk(userId);
