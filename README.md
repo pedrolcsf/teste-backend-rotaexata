@@ -19,7 +19,7 @@ Aplicação backend desenvolvida com Node.js, Express e PostgreSQL. Implementa a
 
 2. Instale as dependências:
     ```bash
-    npm i
+    npm install
     ```
 
 3. Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
@@ -31,6 +31,8 @@ Aplicação backend desenvolvida com Node.js, Express e PostgreSQL. Implementa a
     JWT_SECRET=your_jwt_secret
     JWT_EXPIRES_IN=1d
     SHARED_SECRET_KEY=your_shared_secret_key
+
+    NODE_ENV=development
     ```
 
 4. Execute o banco de dados com Docker:
@@ -45,9 +47,17 @@ Aplicação backend desenvolvida com Node.js, Express e PostgreSQL. Implementa a
 
 6. Execute a aplicação
     ```bash
-    npm run start:dev
+    npm run dev
     ```
 
+## Testes
+- `Jest`
+
+### Como executar
+5. Execute os testes:
+    ```bash
+    npm run test
+    ```
 
 ### Endpoints
 
