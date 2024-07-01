@@ -5,7 +5,6 @@ const Address = require('../../models/Address');
 const User = require('../../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const { Op } = require('sequelize');
 
 const getToken = async () => {
   const passwordHash = await bcrypt.hash('password123', 10);
