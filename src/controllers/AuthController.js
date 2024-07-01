@@ -1,6 +1,7 @@
 const User = require('../models/User');
-const bcrypt = require('bcrypt');
 const generateToken = require('../utils/generateToken');
+
+const bcrypt = require('bcrypt');
 
 module.exports = {
   async store(req, res) {
