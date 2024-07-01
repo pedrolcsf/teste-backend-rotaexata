@@ -26,13 +26,13 @@ Aplicação backend desenvolvida com Node.js, Express e PostgreSQL. Implementa a
 
 3. Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
     ```env
-    DB_HOST=db
-    DB_NAME=your_db_name
-    DB_USER=your_db_user
-    DB_PASSWORD=your_db_password
-    JWT_SECRET=your_jwt_secret
+    DB_HOST=localhost
+    DB_NAME=rotaexata
+    DB_USER=rotaexata
+    DB_PASSWORD=rotaexata123
+    JWT_SECRET=secret_rotaexata
     JWT_EXPIRES_IN=1d
-    SHARED_SECRET_KEY=your_shared_secret_key
+    SHARED_SECRET_KEY=shared_secret_rotaexata
 
     NODE_ENV=development
     ```
