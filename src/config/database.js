@@ -3,7 +3,7 @@ require('dotenv').config();
 module.exports = {
   test: {
     dialect: 'sqlite',
-    storage: './src/database/test.sqlite',
+    storage: './src/database/tests/test.sqlite',
     define: {
       timestamps: true,
       underscored: true,

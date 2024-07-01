@@ -59,8 +59,6 @@ Aplicação backend desenvolvida com Node.js, Express e PostgreSQL. Implementa a
     npm run test
     ```
 
-
-
 ### Endpoints
 
 #### Autenticação

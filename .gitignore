@@ -2,3 +2,5 @@ node_modules
 dist
 .env
 data
+src/database/tests
+src/database/tests/*
