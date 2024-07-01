@@ -3,10 +3,12 @@ services:
   database:
     image: postgres:latest
     container_name: rotaexata
+    env_file:
+      - .env
     environment:
-      POSTGRES_USER: rotaexata
-      POSTGRES_PASSWORD: rotaexata
-      POSTGRES_DB: rotaexata
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - "5432:5432"
     networks:

@@ -3,6 +3,8 @@
 ## Descrição
 Aplicação backend desenvolvida com Node.js, Express e PostgreSQL. Implementa autenticação JWT e um CRUD para gerenciar dados de endereços.
 
+```importe o arquivo: 'insomnia_collection' no insomnia para realizar os testes nas rotas ```
+
 ## Como Executar
 
 ### Requisitos
