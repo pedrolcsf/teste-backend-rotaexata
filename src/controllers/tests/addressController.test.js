@@ -120,5 +120,83 @@ describe('Address Controller', () => {
     const deletedAddress = await Address.findByPk(address.id);
     expect(deletedAddress).toBeNull();
   });
+
+  it('should list addresses filtered by keyword', async () => {
+    await Address.bulkCreate([
+      {
+        user_id: userId,
+        zipcode: '0000000',
+        street: 'Test Street',
+        district: 'Test District',
+        city: 'Test City',
+        state: 'ST',
+        complement: 'Apt 1',
+        number: 1223,
+      },
+      {
+        user_id: userId,
+        zipcode: '0000001',
+        street: 'Filter Test',
+        district: 'Filter District 1',
+        city: 'Filter City 1',
+        state: 'ST',
+        complement: 'Apt 1 1',
+        number: 1224,
+      },
+    ]);
+
+    const response = await request(app)
+      .get('/addresses')
+      .set('Authorization', `Bearer ${authToken}`)
+      .query({ keyword: 'Filter' });
+
+    expect(response.status).toBe(200);
+    expect(response.body.length).toBe(1);
+    expect(response.body[0].street).toBe('Filter Test');
+  });
+
+  it('should share an address and generate a shared URL', async () => {
+    const address = await Address.create({
+      user_id: userId,
+      zipcode: '0000000',
+      street: 'Test Street',
+      district: 'Test District',
+      city: 'Test City',
+      state: 'ST',
+      complement: 'Apt 1',
+      number: 1223,
+    });
+
+    const response = await request(app)
+      .post(`/addresses/${address.id}/share`)
+      .set('Authorization', `Bearer ${authToken}`)
+      .send({
+        expiresIn: '1h',
+      });
+
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty('url');
+    expect(response.body.url).toContain('/shared/');
+  });
+
+  it('should get a shared address using a valid token', async () => {
+    const token = jwt.sign({ address_id: 1 }, process.env.SHARED_SECRET_KEY, { expiresIn: '1h' });
+
+    const response = await request(app)
+      .get(`/shared/${token}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body.street).toBe('Test Street');
+  });
+
+  it('should not get a shared address using an invalid token', async () => {
+    const invalidToken = 'invalid-token';
+
+    const response = await request(app)
+      .get(`/shared/${invalidToken}`);
+
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty('error', 'Invalid or expired token');
+  });
 });
 
