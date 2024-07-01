@@ -5,7 +5,12 @@ const User = require('../models/User');
 const Address = require('../models/Address');
 const Log = require('../models/Log');
 
-const connection = new Sequelize(dbConfig);
+require('dotenv').config();
+
+const env = process.env.NODE_ENV || 'development';
+const config = dbConfig[env];
+
+const connection = new Sequelize(config.database, config.username, config.password, config);
 
 User.init(connection);
 Address.init(connection);
